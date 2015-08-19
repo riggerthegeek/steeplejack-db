@@ -1,4 +1,4 @@
-# Steeplejack Errors
+# Steeplejack DB
 
 [![Node.js Version][node-version-image]][node-version-url]
 [![Build Status][travis-image]][travis-url]
