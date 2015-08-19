@@ -19,6 +19,7 @@ var steeplejack = require("steeplejack");
 
 global.injector = steeplejack.test({
     modules: [
-        "src/errors/**/*.js"
+        require("steeplejack-errors"),
+        "src/lib/**/*.js"
     ]
 });
