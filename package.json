@@ -4,7 +4,6 @@
   "description": "Database plugins for a steeplejack project",
   "main": "./src/main",
   "dependencies": {
-    "lodash": "^3.10.1"
   },
   "peerDependencies": {
     "steeplejack": "*"
