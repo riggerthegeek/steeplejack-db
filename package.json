@@ -6,6 +6,7 @@
   "dependencies": {
   },
   "peerDependencies": {
+    "generic-pool": "^2.0.0",
     "steeplejack": "*"
   },
   "devDependencies": {
