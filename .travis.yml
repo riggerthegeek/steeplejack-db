@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+- '0.12'
+- '0.11'
+- '0.10'
+- iojs
+matrix:
+  fast_finish: true
+before_install:
+- npm install -g grunt-cli
+script:
+- grunt ci
+- grunt coveralls:push
+env:
+  matrix:
+    secure: yi5zMWM7s84zjAeyh//euY2P2LLhj6p9l3zqC8egh1dzqVsK5HRdYchzJWHbzQrY1Iia0gC7BgTwo5gCgdNOnQZdkDQHJXFO9J9rq+oIV4yLmxwUcQZFSCJ+ltQZ3QgNcR0PzGeOcIIpbqYbLZuqynWDoQpmiZ9Cw+Dv0i/I2SG1TZ2lmmbCmY5zZKnCmqSqwjY6maAP2tqEIBwg0nJxbsXgYIiiAHwKwVVgHJwEbUmZFNYU5TsUZUy+rTTuOdFZEMFG5FOeoZf7TO+K6l1bWK7mqdRxjj3JSl8dcWSqHNZ5PquDIRYECQNdrHLqzADtwx37vo1nZsjvNoP0dZ8OH/3zBKQZhhrSz+5Gf0UuMtWsRAcN6SO2IGOpsQtkCXLr9vSdX8hlxF9dYR8QHWtfYEeCXoZZn66d+8Lp19yUL4fLAolqnp9UaORgBa3K4nLA9Qz7Y7cJcNX7Foc2685LRC5O56dKtdONzZFOkPTb1PCib8VbNKAc9+7SZsivXkCUN7e+Xnfe3ghHC2GTdXk8DVo0DVLHFEMi+0MXj2SKXafwSrVtvNy6DyHAbnnRmM4f+L8UAXDzsi4g/ABZ6PDex1wLKyVmBQhch35x1+/11IMM2h1mal96KxHlYA/3wia1+mcAtafFvIT3iJJj2KUJFU1h15eBE0zoP6ZIdIik0jc=
+deploy:
+  provider: npm
+  email: simon@simonemms.com
+  on:
+    all_branches: true
+    tags: true
+    repo: riggerthegeek/steeplejack-errors
