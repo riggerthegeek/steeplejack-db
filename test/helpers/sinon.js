@@ -12,6 +12,8 @@
 global.chai = require("chai");
 global.sinon = require("sinon");
 
+require("sinon-as-promised");
+
 
 /* Files */
 
