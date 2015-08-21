@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "description": "Database plugins for a steeplejack project",
   "main": "./src/main",
-  "dependencies": {},
+  "dependencies": {
+    "bluebird": "^2.0.0"
+  },
   "peerDependencies": {
     "generic-pool": "^2.0.0",
     "steeplejack": "*",
@@ -11,6 +13,7 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-jshint": "^0.11.2",
