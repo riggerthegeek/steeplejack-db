@@ -39,47 +39,50 @@ describe("poolGrabber test", function () {
 
         resource.acquire.yields(new Error("hello"));
 
-        poolGrabber(resource, iterator, function (err, result) {
+        return poolGrabber(resource, iterator)
+            .catch(function (err) {
 
-            expect(err).to.be.instanceof(StoreError);
-            expect(err.message).to.be.equal("hello");
+                expect(err).to.be.instanceof(StoreError);
+                expect(err.message).to.be.equal("hello");
 
-            expect(result).to.be.undefined;
+                expect(resource.acquire).to.be.calledOnce;
+                expect(resource.release).to.not.be.called;
 
-            expect(resource.acquire).to.be.calledOnce;
-            expect(resource.release).to.not.be.called;
+                expect(iterator).to.not.be.called;
 
-            expect(iterator).to.not.be.called;
+                done();
 
-            done();
-
-        });
+            });
 
     });
 
     it("should handle an iterator error, closing up the connection", function (done) {
 
+        /* Yield - acquire requires a callback */
         resource.acquire.yields(null, "db");
 
-        iterator.yields(new Error("ooops"));
+        /* Reject - iterator is a promise */
+        iterator.rejects(new Error("ooops"));
 
-        poolGrabber(resource, iterator, function (err, result) {
+        poolGrabber(resource, iterator)
+            .catch(function (err) {
 
-            expect(err).to.be.instanceof(StoreError);
-            expect(err.message).to.be.equal("ooops");
+                expect(err).to.be.instanceof(StoreError);
+                expect(err.message).to.be.equal("ooops");
 
-            expect(result).to.be.undefined;
+            })
+            .finally(function () {
 
-            expect(resource.acquire).to.be.calledOnce;
-            expect(resource.release).to.be.calledOnce
-                .calledWith("db");
+                expect(resource.acquire).to.be.calledOnce;
+                expect(resource.release).to.be.calledOnce
+                    .calledWith("db");
 
-            expect(iterator).to.be.calledOnce
-                .calledWith("db");
+                expect(iterator).to.be.calledOnce
+                    .calledWith("db");
 
-            done();
+                done();
 
-        });
+            });
 
     });
 
@@ -87,24 +90,23 @@ describe("poolGrabber test", function () {
 
         resource.acquire.yields(null, "db");
 
-        iterator.yields(null, "result");
+        iterator.resolves("result");
 
-        poolGrabber(resource, iterator, function (err, result) {
+        poolGrabber(resource, iterator)
+            .then(function (result) {
 
-            expect(err).to.be.null;
+                expect(result).to.be.equal("result");
 
-            expect(result).to.be.equal("result");
+                expect(resource.acquire).to.be.calledOnce;
+                expect(resource.release).to.be.calledOnce
+                    .calledWith("db");
 
-            expect(resource.acquire).to.be.calledOnce;
-            expect(resource.release).to.be.calledOnce
-                .calledWith("db");
+                expect(iterator).to.be.calledOnce
+                    .calledWith("db");
 
-            expect(iterator).to.be.calledOnce
-                .calledWith("db");
+                done();
 
-            done();
-
-        });
+            });
 
     });
 

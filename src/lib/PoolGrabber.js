@@ -14,6 +14,7 @@
 
 
 /* Third-party modules */
+var bluebird = require("bluebird");
 
 
 /* Files */
@@ -21,35 +22,24 @@
 
 module.exports.__factory = function $poolGrabber (StoreError) {
 
-    return function (resource, iterator, cb) {
+    return function (resource, iterator) {
 
-        /* Acquire DB */
-        resource.acquire(function (err, db) {
+        var acquire = bluebird.promisify(resource.acquire);
 
-            if (err) {
-                /* Error in grabbing pool - can't continue to the iterator */
-                cb(new StoreError(err));
-                return;
-            }
+        return acquire()
+            .then(function (db) {
 
-            /* Run the iterator function, passing in db and a callback */
-            iterator(db, function poolGrabberCallback (err, result) {
+                /* Once a database is retrieved, it must be returned to the pool */
+                return iterator(db)
+                    .finally(function () {
+                        resource.release(db);
+                    });
 
-                /* Return resource back to the pool */
-                resource.release(db);
-
-                if (err) {
-                    /* An error happened - wrap in StoreError */
-                    cb(new StoreError(err));
-                    return;
-                }
-
-                /* All good - send back */
-                cb(null, result);
-
+            })
+            .catch(function (err) {
+                /* Wrap any errors in a StoreError */
+                throw new StoreError(err);
             });
-
-        });
 
     };
 
