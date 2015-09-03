@@ -7,9 +7,9 @@
     "bluebird": "^2.0.0"
   },
   "peerDependencies": {
-    "generic-pool": "^2.0.0",
+    "generic-pool": ">=2.0.0",
     "steeplejack": "*",
-    "steeplejack-errors": "^0.1.0"
+    "steeplejack-errors": ">=0.1.0"
   },
   "devDependencies": {
     "chai": "^3.2.0",
