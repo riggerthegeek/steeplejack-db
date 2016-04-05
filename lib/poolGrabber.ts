@@ -21,6 +21,7 @@ import {Promise} from "es6-promise";
 
 
 /* Files */
+import {IResource} from "./resource";
 
 
 const name = "$poolGrabber";
@@ -28,7 +29,7 @@ const name = "$poolGrabber";
 
 function factory (StoreError: (err: any) => void) {
 
-    return (resource: any) => {
+    return (resource: IResource, iterator: (db: any) => Promise<any>) => {
 
         return new Promise((resolve, reject) => {
 
@@ -45,7 +46,24 @@ function factory (StoreError: (err: any) => void) {
 
             });
 
-        });
+        })
+            .then(db => {
+
+                return new Promise(resolve => {
+
+                    resolve(iterator(db));
+
+                }).then(result => {
+                    resource.release(db);
+
+                    return result;
+                }).catch(err => {
+                    resource.release(db);
+
+                    return Promise.reject(err);
+                });
+
+            });
 
     };
 
