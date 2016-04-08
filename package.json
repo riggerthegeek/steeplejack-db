@@ -4,8 +4,8 @@
   "description": "Database plugin for a Steeplejack project",
   "main": "./index",
   "scripts": {
-    "build": "npm run clean && tsc --declaration --sourceMap --experimentalDecorators typings/main.d.ts index.ts",
-    "buildAll": "npm run clean && tsc --outDir ./tmp --sourceMap --experimentalDecorators typings/main.d.ts index.ts test/**/*.ts",
+    "build": "npm run clean && tsc --declaration --sourceMap --experimentalDecorators typings/main.d.ts index.ts -t es5",
+    "buildAll": "npm run clean && tsc --outDir ./tmp --sourceMap --experimentalDecorators typings/main.d.ts index.ts test/**/*.ts -t es5",
     "ci": "npm test && npm run coverage",
     "clean": "rm -Rf index.js lib/*.js index.js.map lib/*.js.map index.d.ts lib/*.d.ts tmp coverage",
     "coverage": "npm run buildAll && rm -Rf ./coverage && istanbul cover _mocha ./tmp/test/ -- --recursive ./tmp/test && remap-istanbul -i ./coverage/coverage.json -o ./coverage/lcov-report -t html&& remap-istanbul -i ./coverage/coverage.json -o ./coverage/coverage.json  && istanbul check-coverage ./coverage/coverage.json --statements=100 --functions=100 --branches=100 --lines=100",
