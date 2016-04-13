@@ -34,10 +34,12 @@ import {FatalException} from "steeplejack/exception/fatal";
 })
 export class StoreError extends FatalException {
 
-    public httpCode = 503;
-
     public get type () {
         return "STORE";
+    }
+
+    public getHttpCode () : number {
+        return 503;
     }
 
 }

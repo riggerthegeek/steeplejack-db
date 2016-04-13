@@ -38,7 +38,7 @@ describe("store error test", function () {
             .instanceof(FatalException);
 
         expect(obj.message).to.be.equal("uh-oh");
-        expect(obj.httpCode).to.be.equal(503);
+        expect(obj.getHttpCode()).to.be.equal(503);
         expect(obj.type).to.be.equal("STORE");
 
     });
