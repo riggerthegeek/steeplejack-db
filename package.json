@@ -1,6 +1,6 @@
 {
   "name": "steeplejack-db",
-  "version": "1.0.0-2",
+  "version": "1.0.0",
   "description": "Database plugin for a Steeplejack project",
   "main": "./index",
   "scripts": {
